@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 import uvicorn
-from uvicorn.config import LOGGING_CONFIG
 import os
 import logging
 from fastapi.middleware.cors import CORSMiddleware
@@ -16,7 +15,6 @@ def build_filepath(relative_path):
 # initial setup
 app = FastAPI()
 logger = logging.getLogger('uvicorn')
-LOGGING_CONFIG['formatters']['default']['fmt'] = '%(asctime)s [%(name)s] %(levelprefix)s %(message)s'
 remote_controller = RemoteController(17, logger)
 air_monitor = AirMonitor()
 
