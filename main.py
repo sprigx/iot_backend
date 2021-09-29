@@ -5,6 +5,7 @@ import os
 import logging
 from fastapi.middleware.cors import CORSMiddleware
 from remote_controller import RemoteController
+from air_monitor import AirMonitor
 
 
 # utils
@@ -14,7 +15,8 @@ def build_filepath(relative_path):
 # initial setup
 app = FastAPI()
 logger = logging.getLogger('uvicorn')
-c = RemoteController(17, logger)
+remote_controller = RemoteController(17, logger)
+air_monitor = AirMonitor()
 
 origins = [
     '*'
@@ -34,23 +36,31 @@ class Request(BaseModel):
     command: str
 
 # endpoints
-@app.post("/control")
+@app.post('/control')
 async def control(request: Request):
     try:
-        c.transmit(request.target, request.command)
+        remote_controller.transmit(request.target, request.command)
         return {"detail": "ok"}
     except Exception as e:
         logger.error(e)
         return {"detail": "failed"}
 
-@app.get("/test")
+@app.get('/test')
 async def test():
     return {"detail": "this is a test."}
 
+@app.get('/air')
+async def air():
+    try:
+        return air_monitor.get()
+    except Exception as e:
+        logger.error(e)
+        return {"detail": "failed"}
+
 # on_event
-@app.on_event("shutdown")
+@app.on_event('shutdown')
 async def shutdown_event():
-    c.cleanup()
+    remote_controller.cleanup()
     logger.info('Finished RemoteController cleaning up.')
 
 if __name__ == '__main__':
