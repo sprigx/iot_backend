@@ -17,6 +17,7 @@ class AirMonitor:
 
     def get(self):
         d = self.sensor.data
+        print(d.heat_stable)
         return {
             'temperature': d.temperature,
             'pressure': d.pressure,
