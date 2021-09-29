@@ -1,4 +1,5 @@
 import bme680
+import time
 
 class AirMonitor:
     def __init__(self):
@@ -14,18 +15,27 @@ class AirMonitor:
         sensor.select_gas_heater_profile(0)
 
         self.sensor = sensor
+        self.initial_time = time.time()
+        self.time_offset = 10
 
     def get(self):
-        d = self.sensor.data
-        print(d.heat_stable)
-        return {
-            'temperature': d.temperature,
-            'pressure': d.pressure,
-            'humidity': d.humidity,
-            'gas_resistance': d.gas_resistance if d.heat_stable else None
-        }
+        s = self.sensor
+        time_ready = self.initial_time < time.time() - self.time_offset
+        if s.get_sensor_data() and time_ready:
+            d = s.data
+            return {
+                'status': 'ok',
+                'temperature': d.temperature,
+                'pressure': d.pressure,
+                'humidity': d.humidity,
+                'gas_resistance': d.gas_resistance if d.heat_stable else None
+            }
+        else:
+            return {'status': 'not_ready'}
 
 if __name__ == '__main__':
     a = AirMonitor()
+    print(a.get())
+    time.sleep(11)
     print(a.get())
 
