@@ -1,0 +1,5 @@
+pigpio
+fastapi
+uvicorn
+bme680
+
