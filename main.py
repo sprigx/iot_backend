@@ -20,7 +20,7 @@ remote_controller = RemoteController(17, logger)
 try:
     air_monitor = AirMonitor()
 except RuntimeError:
-    logger.warn('BME680 not found.')
+    logger.warning('BME680 not found.')
 
 origins = [
     '*'
