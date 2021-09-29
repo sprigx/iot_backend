@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 import uvicorn
+from uvicorn.config import LOGGING_CONFIG
 import os
 import logging
 from fastapi.middleware.cors import CORSMiddleware
@@ -40,14 +41,14 @@ class Request(BaseModel):
 async def control(request: Request):
     try:
         remote_controller.transmit(request.target, request.command)
-        return {"detail": "ok"}
+        return {'status': 'ok'}
     except Exception as e:
         logger.error(e)
-        return {"detail": "failed"}
+        return {'status': 'failed'}
 
 @app.get('/test')
 async def test():
-    return {"detail": "this is a test."}
+    return {'status': 'ok'}
 
 @app.get('/air')
 async def air():
@@ -55,7 +56,7 @@ async def air():
         return air_monitor.get()
     except Exception as e:
         logger.error(e)
-        return {"detail": "failed"}
+        return {'detail': 'failed'}
 
 # on_event
 @app.on_event('shutdown')
@@ -64,4 +65,5 @@ async def shutdown_event():
     logger.info('Finished RemoteController cleaning up.')
 
 if __name__ == '__main__':
+    LOGGING_CONFIG["formatters"]["default"]["fmt"] = "%(asctime)s [%(name)s] %(levelprefix)s %(message)s"
     uvicorn.run('main:app', host='0.0.0.0', port=8000, lifespan='on')
