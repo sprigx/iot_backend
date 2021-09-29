@@ -16,6 +16,7 @@ def build_filepath(relative_path):
 # initial setup
 app = FastAPI()
 logger = logging.getLogger('uvicorn')
+LOGGING_CONFIG['formatters']['default']['fmt'] = '%(asctime)s [%(name)s] %(levelprefix)s %(message)s'
 remote_controller = RemoteController(17, logger)
 air_monitor = AirMonitor()
 
@@ -65,5 +66,4 @@ async def shutdown_event():
     logger.info('Finished RemoteController cleaning up.')
 
 if __name__ == '__main__':
-    LOGGING_CONFIG["formatters"]["default"]["fmt"] = "%(asctime)s [%(name)s] %(levelprefix)s %(message)s"
     uvicorn.run('main:app', host='0.0.0.0', port=8000, lifespan='on')
