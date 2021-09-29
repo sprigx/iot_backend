@@ -16,7 +16,11 @@ def build_filepath(relative_path):
 app = FastAPI()
 logger = logging.getLogger('uvicorn')
 remote_controller = RemoteController(17, logger)
-air_monitor = AirMonitor()
+
+try:
+    air_monitor = AirMonitor()
+except RuntimeError:
+    logger.warn('BME680 not found.')
 
 origins = [
     '*'
