@@ -21,8 +21,8 @@ class AirMonitor:
     def get(self):
         s = self.sensor
         time_ready = self.initial_time < time.time() - self.time_offset
+        d = s.data
         if s.get_sensor_data() and time_ready:
-            d = s.data
             return {
                 'status': 'ok',
                 'temperature': d.temperature,
@@ -31,11 +31,13 @@ class AirMonitor:
                 'gas_resistance': d.gas_resistance if d.heat_stable else None
             }
         else:
-            return {'status': 'not_ready'}
+            return {
+                'status': 'not_ready'
+            }
 
 if __name__ == '__main__':
     a = AirMonitor()
-    print(a.get())
-    time.sleep(11)
-    print(a.get())
+    while True:
+        print(a.get())
+        time.sleep(1)
 
