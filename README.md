@@ -2,6 +2,12 @@
 
 ラズパイを使った赤外線スマートリモコンのバックエンドAPIサーバー
 
+## usage
+
+```
+$ python3 main.py
+```
+
 ## Hardware
 <img width="300" alt="pi_zero" src="https://user-images.githubusercontent.com/46306618/145812585-cf625fe5-1a6a-4661-970e-ef35a1695332.png">
 
