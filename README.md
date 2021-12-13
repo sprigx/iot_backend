@@ -2,6 +2,8 @@
 
 ラズパイを使った赤外線スマートリモコンのバックエンドAPIサーバー
 
+Webアプリ→https://github.com/sprigx/smart_remote_control
+
 ## usage
 
 ```
