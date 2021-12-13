@@ -2,12 +2,14 @@
 
 ラズパイを使った赤外線スマートリモコンのバックエンドAPIサーバー
 
-## 使用ハードウェア
+## Hardware
+<img width="300" alt="pi_zero" src="https://user-images.githubusercontent.com/46306618/145812585-cf625fe5-1a6a-4661-970e-ef35a1695332.png">
+
 - Raspberry Pi Zero
-- 赤外線LEDユニット: https://qiita.com/takjg/items/e6b8af53421be54b62c9
+- 赤外線LEDユニット(参考記事): https://qiita.com/takjg/items/e6b8af53421be54b62c9
 - 大気計測センサー: BME680
 
-## パッケージ
+## Python packages
 - FastAPI
 - uvicorn
 - bme680
